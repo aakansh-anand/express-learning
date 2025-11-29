@@ -1,0 +1,31 @@
+version: "3.8"
+
+services:
+  postgres:
+    image: postgres:14-trixie
+    container_name: testing-db
+    environment:
+      POSTGRES_DB: testing-db
+      POSTGRES_USER: aakansh
+      POSTGRES_PASSWORD: testing-db
+    ports:
+      - "5600:5432"
+    volumes:
+      - "testing_data:/var/lib/postgresql/data"
+      - "./postgresql/model/migrations:/docker-entrypoint-initdb.d"
+
+  mongodb:
+    image: mongo:8.0
+    container_name: mongo-basecamp
+    ports:
+      - 27027:27017
+    environment:
+      MONGO_INITDB_ROOT_USERNAME: aakansh
+      MONGO_INITDB_ROOT_PASSWORD: basecamp
+    volumes:
+      - mongodb_basecamp:/data/db
+
+volumes:
+  testing_data:
+  mongodb_basecamp:
+    driver: local
